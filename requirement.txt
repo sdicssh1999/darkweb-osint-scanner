@@ -1,0 +1,7 @@
+requests
+stem
+beautifulsoup4
+lxml
+tqdm
+rich
+toml
