@@ -1,35 +1,40 @@
 import os
+from rich.console import Console
+from rich.text import Text
 
 TOOL_ENTRY_POINTS = {
-    "darkdump": "main.py",
+    "Katana": None,
     "OnionSearch": "main.py",
-    "katana": None,
-    "Darc": "demo/deploy/market/run.py",
-    "DeepDarkCTI": None,
+    "darkdump": "main.py",
+    "ahmia-site": None,
     "Darkus": None,
-    "MidnightSea": "workspaces/scraper/src/scraper/main.py",
-    "Onioff": None,
-    "OnionIngestor": None,
-    "PryingDeep": None,
-    "TorBot": "main.py",
-    "TorCrawl": None,
-    "VigilantOnion": None,
     "onionscan": None,
-    "ahmia-site": None
+    "Onioff": None,
+    "docker-onion-nmap": None,
+    "TorBot": "main.py",
+    "TorCrawl.py": None,
+    "VigilantOnion": None,
+    "OnionIngestor": None,
+    "Darc": "demo/deploy/market/run.py",
+    "midnight_sea": "workspaces/scraper/src/scraper/main.py",
+    "pryingdeep": None,
+    "deepdarkCTI": None
 }
 
 def print_banner():
     os.system("clear")
-    banner = r"""
-      __        __         _                                      _   _             _ 
-      \ \      / /__  _ __| | _____   _____ _ __ ___   ___ _ __ | |_| |_   _  __ _| |
-       \ \ /\ / / _ \| '__| |/ _ \ \ / / _ \ '_ ` _ \ / _ \ '_ \| __| | | | |/ _` | |
-        \ V  V / (_) | |  | | (_) \ V /  __/ | | | | |  __/ | | | |_| | |_| | (_| | |
-         \_/\_/ \___/|_|  |_|\___/ \_/ \___|_| |_| |_|\___|_| |_|\__|_|\__,_|\__,_|_|
-                             Welcometothedarkworld
-                              Author: @Sumandas
-    """
-    print(banner)
+    console = Console()
+
+    ascii_banner = r"""
+__        __   _                            _   ____   ____   ____  
+\ \      / /__| | ___ ___  _ __ ___   ___  | | |___ \ |___ \ |___ \ 
+ \ \ /\ / / _ \ |/ __/ _ \| '_ ` _ \ / _ \ | |   __) |  __) |  __) |
+  \ V  V /  __/ | (_| (_) | | | | | |  __/ | |  / __/  / __/  / __/ 
+   \_/\_/ \___|_|\___\___/|_| |_| |_|\___| |_| |_____| |_____| |____|
+"""
+    console.print(ascii_banner, style="bold magenta")
+    console.print("      🌑 World of Dark Side OSINT Toolkit", style="bold cyan")
+    console.print("           Author: @Sumandas\n", style="dim white")
 
 def list_available_tools():
     return [tool for tool in TOOL_ENTRY_POINTS]

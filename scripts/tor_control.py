@@ -15,3 +15,4 @@ def stop_tor_service():
         print("[+] Tor service stopped.")
     except Exception as e:
         print(f"[!] Failed to stop Tor: {e}")
+

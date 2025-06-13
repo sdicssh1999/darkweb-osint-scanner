@@ -25,3 +25,4 @@ def run_tool(tool_name, base_path="tools/", output_dir="data/", keywords=[]):
         print(f"[+] Output saved: {output_file}")
     except subprocess.CalledProcessError as e:
         print(f"[!] Error running {tool_name}: {e}")
+
