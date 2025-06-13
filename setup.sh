@@ -47,4 +47,6 @@ sudo apt update
 sudo apt install -y tor
 
 echo "[✓] Setup completed successfully. You're ready to scan!"
+delete setup.sh - moved setup to Python
+
 
