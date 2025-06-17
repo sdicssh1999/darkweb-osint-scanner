@@ -1,28 +1,49 @@
+# scripts/runner.py
 import os
 import subprocess
-from scripts.utils import TOOL_ENTRY_POINTS
+from utils import tool_entry_points, write_log
 
-def run_tool(tool_name, base_path="tools/", output_dir="data/", keywords=[]):
-    tool_path = os.path.join(base_path, tool_name)
-    entry_point = TOOL_ENTRY_POINTS.get(tool_name)
+TOOLS_DIR = "tools"
 
-    if entry_point is None:
-        print(f"[-] {tool_name}: No known Python entry file. Manual review needed.")
-        return
 
-    full_path = os.path.join(tool_path, entry_point)
-    if not os.path.isfile(full_path):
-        print(f"[-] {tool_name}: Entry file {entry_point} not found.")
-        return
-
-    print(f"[+] Running {tool_name}...")
+def run_tool(tool_name, entry_script):
+    tool_path = os.path.join(TOOLS_DIR, tool_name)
     try:
-        cmd = ["python3", full_path] + keywords
-        result = subprocess.run(cmd, check=True, capture_output=True, text=True)
-        output_file = os.path.join(output_dir, f"{tool_name}_output.txt")
-        with open(output_file, "w") as f:
-            f.write(result.stdout)
-        print(f"[+] Output saved: {output_file}")
-    except subprocess.CalledProcessError as e:
-        print(f"[!] Error running {tool_name}: {e}")
+        if not os.path.exists(tool_path):
+            print(f"[!] {tool_name} not found in tools/. Skipping.")
+            return
 
+        os.chdir(tool_path)
+
+        if entry_script:
+            print(f"[*] Running {tool_name}...")
+            write_log(f"Running {tool_name} with {entry_script}")
+
+            # Different run logic per tool
+            if tool_name.lower() == "katana":
+                subprocess.run(["python3", entry_script, "-t"])
+            elif tool_name.lower() == "darkdump":
+                subprocess.run(["python3", entry_script, "--help"])
+            elif tool_name.lower() == "onionsearch":
+                subprocess.run(["python3", "setup.py", "install"])
+            elif tool_name.lower() == "onioff":
+                subprocess.run(["python3", entry_script])
+            elif tool_name.lower() == "torbot":
+                subprocess.run(["python3", entry_script, "--help"])
+            else:
+                subprocess.run(["python3", entry_script])
+        else:
+            print(f"[-] No launch script defined for {tool_name}. Manual execution may be needed.")
+            write_log(f"Skipped {tool_name} due to missing entry point.")
+
+    except Exception as e:
+        print(f"[!] Error running {tool_name}: {e}")
+        write_log(f"Error running {tool_name}: {e}")
+    finally:
+        os.chdir("../../")
+
+
+def run_all_tools():
+    print("[*] Running selected tools...")
+    for tool, entry in tool_entry_points.items():
+        run_tool(tool, entry)
